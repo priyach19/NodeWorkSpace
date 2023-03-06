@@ -26,16 +26,14 @@ function addTaskToDom(task){
 
     li.innerHTML=`<input type="checkbox" id="${task.id}" ${task.done ? checked:" "} class="custom-checkbox" data='hello'></input>  
     <label for="${task.id}" class='label'> ${task.text} </label>
-    <button class="fa-solid fa-circle-xmark" data-id=${task.id} className="delete"></button>`;
+    <i class="fa-solid fa-circle-xmark" data-id=${task.id} className="delete"></i>`;
    //tried this not working --><i class="fa-solid fa-circle-xmark" data-id=${task.id}  onclick='deleteTask(${task.id})' className="delete"></i>
    
    tasksList.append(li);
-  
-
 }
 
 //render list after manipulation
-function renderList(task){
+function renderList(){
     tasksList.innerHTML="";
     for(let i=0;i<tasks.length;i++){
         addTaskToDom(tasks[i]);
@@ -63,16 +61,16 @@ function showNotification(text){
     alert(text);
   }
 
-  //delete the task
+//To delete the task
 function deleteTask(taskId){
     const newTasks=tasks.filter(function(task){
     return task.id!==taskId
- })
+ });
     tasks=newTasks;
     renderList();
     showNotification("task deleted succeessfully");
+    
     return;
-
 }
 
 //add task to array
@@ -93,6 +91,7 @@ function handleInputByEnter(e){
     const text=e.target.value;
     if(!text){
             alert("Please enter something!!!");
+            return;
         }
     const task= {
             text:text,
@@ -106,14 +105,15 @@ function handleInputByEnter(e){
 }
 //handle add button
 function handleInputByButton(e){
-    const target=document.getElementById('add');
-    //const text=e.target.value;
+    const target=document.getElementById('input');
+    const text=target.value;
+    console.log(text);
     const task= {
-        text:target.value,
+        text:text,
         id:Date.now().toString(),
         done:false
      }
-    e.target.value="";
+    target.value="";
     addTasks(task);
     renderList(task);
     return;
